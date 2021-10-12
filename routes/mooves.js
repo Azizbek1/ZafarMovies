@@ -11,9 +11,9 @@ router.get('/moves', function(req, res, next) {
 
 /* POST Create a new Movie */
 router.post('/moves', async  function(req, res, next) {
-      const {title, category, country, year,  imdb_score } = req.body
+      const {title, category, country, year,  imdb_score, director_id } = req.body
       const movie = await new Mooves({
-        title, category, country, year, imdb_score
+        title, category, country, year, imdb_score,director_id
       })
       movie.save()
       .then(data => {
@@ -85,6 +85,20 @@ router.get('/api/moviess/top10',  function(req, res, next) {
     allMovees.then(data => {
         res.json(data)
     })
+});
+
+  
+/* GET Year-YEAR */
+router.get('/api/between/:star_year/:end_year',  function(req, res, next) {
+    const {star_year, end_year} = req.params
+    // greater then equal
+    const allMovees = Mooves.find({
+        year: {"$gte" : (star_year),  "$lte" : (end_year)}
+    });
+    allMovees.then(data => {
+        res.json(data)
+    })
+
 });
   
 
